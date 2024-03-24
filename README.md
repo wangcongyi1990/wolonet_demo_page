@@ -1,1 +1,1 @@
-# wolonet_demo_page
+# Audio Samples from Towards Efficient and High-Fidelity Neural Vocoder through Wave Outlooker Network
