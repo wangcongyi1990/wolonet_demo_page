@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-5WSC9PQ0K8"></script> -->
+    <!-- <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5WSC9PQ0K8');
+    </script> -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
+    <title>WOLONet</title>
+  </head>
+
+  <style type="text/css">
+    a {
+	text-decoration: none !important;
+	color: #0072B5
+    }
+    a:hover {
+	color: #D2386C
+    }
+    h3 {
+	padding-top: 20px;
+    }
+    h4 {
+	padding-top: 20px;
+    }
+    table {
+	width: 100%;
+	table-layout: fixed;
+    }
+    th {
+	text-align: center;
+	vertical-align: middle;
+    }
+    td {
+	text-align: center;
+	vertical-align: middle;
+    }
+    ol.reference li {
+	list-style-type: none;
+	counter-increment: cnt;
+	text-indent:-1.6em;
+    }
+    ol.reference li::before {
+	display: marker;
+	content: "[" counter(cnt) "]";
+    }
+    audio {
+	width: 100%;
+	height: 24px;
+	vertical-align: middle;
+    }
+    .left {
+	text-align: left;
+    }
+    .pink{
+	color: #D2386C
+    }
+  </style>
+
+  <body>
+    <header>
+      <div class="text-center p-4">
+	<h1 class="display-1">WOLONet</h1>
+	<p class="lead">
+	Towards Efficient and High-Fidelity Neural Vocoder through Wave Outlooker Network
+	</p>
+	</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+
+	<div class="row" id="abstract">
+	  <div class="col-md-12">
+	    <h3>Abstract</h3>
+	    <div>
+	      <p>
+			Neural vocoders enhance speech synthesis quality in text-to-speech (TTS) and voice conversion (VC) systems. Recently, GAN-based neural vocoders such as Parallel WaveGAN, MelGAN, HiFiGAN, UnivNet, and BigVGAN have gained popularity due to their lightweight and parallel structure, enabling real-time synthesized waveforms with high fidelity, even on CPU. Despite their impressive performance, further reducing computational complexity and model size without compromising quality remains a challenge. To address it, existing studies either generate intermediate lossy audio representations to reduce overall computational demand, but with the sacrifice of synthesis quality, or devise dynamic convolution architectures, novel GAN discriminators, or periodic activations to enhance the audio synthesis quality and generalization ability of the neural vocoders while maintaining the computational complexity and model size. To effectively balance computational complexity and synthesis quality, in this paper, we provide a novel perspective on the design of a GAN-based neural vocoder structure by crafting an effective and lightweight vocoder named WOLONet, which employs a novel lightweight block that for the first time integrates a location-variable and depthwise dynamic convolutional kernel with sinusoidally activated dynamic kernel weights, reducing computational complexity while preserving near-state-of-the-art (SOTA)'s synthesis. To evaluate the effectiveness and generalizability of our method, we compare our method with competitive GAN-based vocoders in both subjective and objective tests on three datasets. Experimental results demonstrate that WOLONet can achieve comparable or slightly better synthesis quality than existing SOTA vocoders (e.g., BigVGAN) while employing fewer parameters or computational costs.
+	      </p>
+	    </div>
+	  </div>
+	</div>
+	
+	<div class="row" id="results">
+		<div class="col-md-12">
+		  <h3>Pipeline</h3>
+		  <img src="wolo_pipeline.png" style="max-width: 100%;" />
+		</div>
+	</div>
+
+
+	<div class="row" id="results">
+	  <div class="col-md-12">
+	    <h3>Experimental Results</h3>
+	    <ol style="list-style-type: upper-roman">
+	      <li><a href="#ljspeech_voc">LJSPeech Results</a></li>
+	      <li><a href="#vctk_voc">VCTK Results</a></li>
+	      <li><a href="#opencpop_voc">Opencpop Results</a></li>
+		  <li><a href="#tts_voc">Application to donwstream TTS</a></li>
+	    </ol>
+
+	    <a name="ljspeech_voc"></a>
+	    <h4>I. LJSPeech Results</h4>
+	    <ul>
+	      <li><strong>Dataset:</strong> LJSpeech <a href="#2"><small>[2]</small></a></li>
+	    </ul>
+
+	    <table class="table table-sm">
+	      <thead>
+		<tr>
+		  <th></th>
+		  <th>Sample 1</th>
+		  <th>Sample 2</th>
+		  <th>Sample 3</th>
+		  <th>Sample 4</th>
+		  <th>Sample 5</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr>
+		  <th scope="row" class="left">Ground truth</th>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/gt_wav/LJ050-0059_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/gt_wav/LJ050-0081_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/gt_wav/LJ050-0089_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/gt_wav/LJ050-0097_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/gt_wav/LJ050-0236_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		</tr>
+	      </tbody>
+	    </table>
+
+	    <table class="table table-sm">
+	      <tbody>
+		<tr>
+		  <th scope="row" class="left">HiFiGAN <a href="#1"><small>[1]</small></a></th>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/hifigan/LJ050-0059_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/hifigan/LJ050-0081_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/hifigan/LJ050-0089_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/hifigan/LJ050-0097_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/hifigan/LJ050-0236_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		</tr>
+
+		<tr>
+		  <th scope="row" class="left">MelGAN <a href="#5"><small>[5]</small></a></th>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/melgan/LJ050-0059_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/melgan/LJ050-0081_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/melgan/LJ050-0089_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/melgan/LJ050-0097_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="ljspeech/melgan/LJ050-0236_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		</tr>
+
+		<tr>
+			<th scope="row" class="left">Parallel WaveGAN <a href="#6"><small>[6]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/pwgan/LJ050-0059_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/pwgan/LJ050-0081_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/pwgan/LJ050-0089_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/pwgan/LJ050-0097_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/pwgan/LJ050-0236_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+
+		<tr>
+			<th scope="row" class="left">UnivNet <a href="#7"><small>[7]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/univnet/LJ050-0059_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/univnet/LJ050-0081_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/univnet/LJ050-0089_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/univnet/LJ050-0097_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/univnet/LJ050-0236_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>  
+		</tr>
+
+		<tr>
+			<th scope="row" class="left">iSTFTNet <a href="#3"><small>[3]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/iSTFTNet/LJ050-0059_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/iSTFTNet/LJ050-0081_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/iSTFTNet/LJ050-0089_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/iSTFTNet/LJ050-0097_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/iSTFTNet/LJ050-0236_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row" class="left">BigVGAN <a href="#8"><small>[8]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/bigvgan/LJ050-0059_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/bigvgan/LJ050-0081_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/bigvgan/LJ050-0089_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/bigvgan/LJ050-0097_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/bigvgan/LJ050-0236_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="left">WOLONet</th>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/wolonet/LJ050-0059_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/wolonet/LJ050-0081_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/wolonet/LJ050-0089_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/wolonet/LJ050-0097_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="ljspeech/wolonet/LJ050-0236_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		</tr>
+	      </tbody>
+	    </table>
+
+	    <a name="vctk_voc"></a>
+	    <h4>II. VCTK Results</h4>
+	    <ul>
+	      <li><strong>Dataset:</strong> VCTK <a href="#4"><small>[4]</small></a></li>
+	    </ul>
+
+	    <table class="table table-sm">
+	      <thead>
+		<tr>
+		  <th></th>
+		  <th>Sample 1 (p243)</th>
+		  <th>Sample 2 (p248)</th>
+		  <th>Sample 3 (p263)</th>
+		  <th>Sample 4 (p281)</th>
+		  <th>Sample 5 (p345)</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr>
+		  <th scope="row" class="left">Ground truth</th>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/gt_wav/p243_389_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/gt_wav/p248_375_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/gt_wav/p263_470_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/gt_wav/p281_457_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/gt_wav/p345_392_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		</tr>
+	      </tbody>
+	    </table>
+
+	    <table class="table table-sm">
+	      <tbody>
+		<tr>
+		  <th scope="row" class="left">HiFiGAN <a href="#1"><small>[1]</small></a></th>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/hifigan/p243_389_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/hifigan/p248_375_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/hifigan/p263_470_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/hifigan/p281_457_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="vctk/hifigan/p345_392_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		</tr>
+
+		<tr>
+			<th scope="row" class="left">MelGAN <a href="#5"><small>[5]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="vctk/melgan/p243_389_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/melgan/p248_375_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/melgan/p263_470_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/melgan/p281_457_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/melgan/p345_392_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+	      </tbody>
+	    </table>
+
+	    <table class="table table-sm">
+	      <tbody>
+		<tr>
+			<th scope="row" class="left">Parallel WaveGAN <a href="#6"><small>[6]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="vctk/pwgan/p243_389_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/pwgan/p248_375_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/pwgan/p263_470_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/pwgan/p281_457_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/pwgan/p345_392_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row" class="left">UnivNet <a href="#7"><small>[7]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="vctk/univnet/p243_389_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/univnet/p248_375_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/univnet/p263_470_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/univnet/p281_457_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/univnet/p345_392_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+		  
+		  <tr>
+			<th scope="row" class="left">iSTFTNet <a href="#3"><small>[3]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="vctk/iSTFTNet/p243_389_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/iSTFTNet/p248_375_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/iSTFTNet/p263_470_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/iSTFTNet/p281_457_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/iSTFTNet/p345_392_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+
+		  <tr>
+			<th scope="row" class="left">BigVGAN <a href="#8"><small>[8]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="vctk/bigvgan/p243_389_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/bigvgan/p248_375_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/bigvgan/p263_470_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/bigvgan/p281_457_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/bigvgan/p345_392_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+
+		  <tr>
+			<th scope="row" class="left">WOLONet</th>
+			<td>
+			  <audio controls>
+				<source src="vctk/wolonet/p243_389_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/wolonet/p248_375_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/wolonet/p263_470_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/wolonet/p281_457_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="vctk/wolonet/p345_392_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+
+	      </tbody>
+	    </table>
+
+	    <a name="opencpop_voc"></a>
+	    <h4>III. Opencpop Results</h4>
+	    <ul>
+	      <li><strong>Dataset:</strong> Opencpop <a href="#9"><small>[9]</small></a></li>
+	    </ul>
+
+	    <table class="table table-sm">
+	      <thead>
+		<tr>
+		  <th></th>
+		  <th>Sample 1</th>
+		  <th>Sample 2</th>
+		  <th>Sample 3</th>
+		  <th>Sample 4</th>
+		  <th>Sample 5</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr>
+		  <th scope="row" class="left">Ground truth</th>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/gt_wav/2086003184_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/gt_wav/2044001654_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/gt_wav/2100003727_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/gt_wav/2100003730_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/gt_wav/2100003751_gt.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		</tr>
+	      </tbody>
+	    </table>
+
+	    <table class="table table-sm">
+	      <tbody>
+		<tr>
+		  <th scope="row" class="left">HiFiGAN <a href="#1"><small>[1]</small></a></th>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/hifigan/2086003184_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/hifigan/2044001654_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/hifigan/2100003727_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/hifigan/2100003730_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="openpop/hifigan/2100003751_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		</tr>
+
+		<tr>
+			<th scope="row" class="left">MelGAN <a href="#5"><small>[5]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="openpop/melgan/2086003184_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/melgan/2044001654_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/melgan/2100003727_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/melgan/2100003730_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/melgan/2100003751_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+	      </tbody>
+	    </table>
+
+	    <table class="table table-sm">
+	      <tbody>
+		<tr>
+			<th scope="row" class="left">Parallel WaveGAN <a href="#6"><small>[6]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="openpop/pwgan/2086003184_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/pwgan/2044001654_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/pwgan/2100003727_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/pwgan/2100003730_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/pwgan/2100003751_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+
+		<tr>
+			<th scope="row" class="left">UnivNet <a href="#7"><small>[7]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="openpop/univnet/2086003184_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/univnet/2044001654_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/univnet/2100003727_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/univnet/2100003730_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/univnet/2100003751_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+		  <tr>
+			<th scope="row" class="left">iSTFTNet <a href="#3"><small>[3]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="openpop/iSTFTNet/2086003184_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/iSTFTNet/2044001654_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/iSTFTNet/2100003727_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/iSTFTNet/2100003730_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/iSTFTNet/2100003751_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+		  <tr>
+			<th scope="row" class="left">BigVGAN <a href="#8"><small>[8]</small></a></th>
+			<td>
+			  <audio controls>
+				<source src="openpop/bigvgan/2086003184_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/bigvgan/2044001654_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/bigvgan/2100003727_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/bigvgan/2100003730_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/bigvgan/2100003751_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+
+		  <tr>
+			<th scope="row" class="left">WOLONet</th>
+			<td>
+			  <audio controls>
+				<source src="openpop/wolonet/2086003184_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/wolonet/2044001654_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/wolonet/2100003727_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/wolonet/2100003730_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+			<td>
+			  <audio controls>
+				<source src="openpop/wolonet/2100003751_gen.wav" type="audio/wav" />
+				Your browser does not support the audio element.
+			  </audio>
+			</td>
+		  </tr>
+
+	      </tbody>
+	    </table>
+
+		<a name="tts_voc"></a>
+	    <h4>IV. Application to donwstream TTS</h4>
+	    <ul>
+	      <li><strong>Dataset:</strong> LJSpeech <a href="#2"><small>[2]</small></a></li>
+	    </ul>
+
+	    <table class="table table-sm">
+	      <thead>
+		<tr>
+		  <th></th>
+		  <th>Sample 1</th>
+		  <th>Sample 2</th>
+		  <th>Sample 3</th>
+		  <th>Sample 4</th>
+		  <th>Sample 5</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr>
+		  <th scope="row" class="left">HiFiGAN <a href="#1"><small>[1]</small></a></th>
+		  <td>
+		    <audio controls>
+		      <source src="tts_checkpoint-hifigan/LJ050-0079_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="tts_checkpoint-hifigan/LJ050-0096_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="tts_checkpoint-hifigan/LJ050-0150_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="tts_checkpoint-hifigan/LJ050-0151_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		  <td>
+		    <audio controls>
+		      <source src="tts_checkpoint-hifigan/LJ050-0240_gen.wav" type="audio/wav" />
+		      Your browser does not support the audio element.
+		    </audio>
+		  </td>
+		</tr>
+	      </tbody>
+	    </table>
+
+	    <table class="table table-sm">
+	      <tbody>
+			<tr>
+				<th scope="row" class="left">WOLONet</th>
+				<td>
+				  <audio controls>
+					<source src="tts_checkpoint-wolonet/LJ050-0079_gen.wav" type="audio/wav" />
+					Your browser does not support the audio element.
+				  </audio>
+				</td>
+				<td>
+				  <audio controls>
+					<source src="tts_checkpoint-wolonet/LJ050-0096_gen.wav" type="audio/wav" />
+					Your browser does not support the audio element.
+				  </audio>
+				</td>
+				<td>
+				  <audio controls>
+					<source src="tts_checkpoint-wolonet/LJ050-0150_gen.wav" type="audio/wav" />
+					Your browser does not support the audio element.
+				  </audio>
+				</td>
+				<td>
+				  <audio controls>
+					<source src="tts_checkpoint-wolonet/LJ050-0151_gen.wav" type="audio/wav" />
+					Your browser does not support the audio element.
+				  </audio>
+				</td>
+				<td>
+				  <audio controls>
+					<source src="tts_checkpoint-wolonet/LJ050-0240_gen.wav" type="audio/wav" />
+					Your browser does not support the audio element.
+				  </audio>
+				</td>
+			  </tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+
+	<div class="row" id="references">
+	  <div class="col-md-12">
+	    <h3>Reference</h3>
+	    <ol class="reference">
+	      <li><a name="1"></a>
+			J. Kong, J. Kim, and J. Bae, “Hifi-gan: Generative adversarial networks
+			for efficient and high fidelity speech synthesis,” Advances in Neural
+			Information Processing Systems, vol. 33, pp. 17 022–17 033, 2020
+	      </li>
+	      
+	      <li><a name="2"></a>
+		K. Ito, L. Johnson.
+		The LJ Speech Dataset.
+		2017.
+	      </li>
+
+	      <li><a name="3"></a>
+		T. Kaneko, K. Tanaka, H. Kameoka, S. Seki,
+		iSTFTNet: Fast and Lightweight Mel-Spectrogram Vocoder Incorporating Inverse Short-Time Fourier Transform.
+		ICASSP, 2022.
+	      </li>
+	      
+	      <li><a name="4"></a>
+		J. Yamagishi, C. Veaux, K. MacDonald.
+		CSTR VCTK Corpus: English Multi-speaker Corpus for CSTR Voice Cloning Toolkit.
+		University of Edinburgh.
+		The Centre for Speech Technology Research,
+		2017.
+	      </li>
+
+	      <li><a name="5"></a>
+			G. Yang, S. Yang, K. Liu, P. Fang, W. Chen, and L. Xie, “Multi-band
+			melgan: Faster waveform generation for high-quality text-to-speech,”
+			arXiv preprint arXiv:2005.05106, 2020
+	      </li>
+
+		  <li><a name="6"></a>
+			R. Yamamoto, E. Song, and J.-M. Kim, “Parallel wavegan: A fast
+			waveform generation model based on generative adversarial networks
+			with multi-resolution spectrogram,” in ICASSP 2020-2020 IEEE International Conference on Acoustics, Speech and Signal Processing
+			(ICASSP). IEEE, 2020, pp. 6199–6203.
+	      </li>
+
+		  <li><a name="7"></a>
+			W. Jang, D. Lim, J. Yoon, B. Kim, and J. Kim, “Univnet: A neural
+			vocoder with multi-resolution spectrogram discriminators for highfidelity waveform generation,” arXiv preprint arXiv:2106.07889, 2021
+	      </li>
+
+		  <li><a name="8"></a>
+			S.-g. Lee, W. Ping, B. Ginsburg, B. Catanzaro, and S. Yoon, “Bigvgan:
+			A universal neural vocoder with large-scale training,” arXiv preprint
+			arXiv:2206.04658, 2022
+	      </li>
+
+		  <li><a name="9"></a>
+			Z. Zhang, Y. Zheng, X. Li, and L. Lu, “Wesinger: Dataaugmented singing voice synthesis with auxiliary losses,” arXiv preprint
+			arXiv:2203.10750, 2022.
+	      </li>
+
+	    </ol>
+
+	  </div>
+	</div>
+	
+      </div>
+    </main>
+
+    <footer>
+      <div class="text-center p-3">
+	<a class="btn btn-outline-secondary" href="#top" role="button">Back to top</a>
+      </div>
+    </footer>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <!-- <script src="../../js/bootstrap.min.js"></script> -->
+  </body>
+</html>
