@@ -82,7 +82,7 @@
 	    <h3>Abstract</h3>
 	    <div>
 	      <p>
-			Neural vocoders enhance speech synthesis quality in text-to-speech (TTS) and voice conversion (VC) systems. Recently, GAN-based neural vocoders such as Parallel WaveGAN, MelGAN, HiFiGAN, UnivNet, and BigVGAN have gained popularity due to their lightweight and parallel structure, enabling real-time synthesized waveforms with high fidelity, even on CPU. Despite their impressive performance, further reducing computational complexity and model size without compromising quality remains a challenge. To address it, existing studies either generate intermediate lossy audio representations to reduce overall computational demand, but with the sacrifice of synthesis quality, or devise dynamic convolution architectures, novel GAN discriminators, or periodic activations to enhance the audio synthesis quality and generalization ability of the neural vocoders while maintaining the computational complexity and model size. To effectively balance computational complexity and synthesis quality, in this paper, we provide a novel perspective on the design of a GAN-based neural vocoder structure by crafting an effective and lightweight vocoder named WOLONet, which employs a novel lightweight block that for the first time integrates a location-variable and depthwise dynamic convolutional kernel with sinusoidally activated dynamic kernel weights, reducing computational complexity while preserving near-state-of-the-art (SOTA)'s synthesis. To evaluate the effectiveness and generalizability of our method, we compare our method with competitive GAN-based vocoders in both subjective and objective tests on three datasets. Experimental results demonstrate that WOLONet can achieve comparable or slightly better synthesis quality than existing SOTA vocoders (e.g., BigVGAN) while employing fewer parameters or computational costs.
+		Neural vocoders enhance speech synthesis quality in text-to-speech (TTS) and voice conversion (VC) systems. Recently, GAN-based neural vocoders such as Parallel WaveGAN, MelGAN, HiFiGAN, UnivNet, and BigVGAN have gained popularity due to their lightweight and parallel structure, enabling real-time synthesized waveforms with high fidelity, even on CPU. Despite their impressive performance, further reducing computational complexity and model size without compromising quality remains challenging. To address it, existing studies either generate intermediate lossy audio representations to reduce overall computational demand, but with the sacrifice of synthesis quality, or devise dynamic convolution architectures, novel GAN discriminators, or periodic activations to enhance the audio synthesis quality and generalization ability of the neural vocoders while maintaining the computational complexity and model size. To effectively balance computational complexity and synthesis quality, in this paper, we provide a novel perspective on the design of a GAN-based neural vocoder structure by crafting an effective and lightweight vocoder named WOLONet, which employs a novel lightweight block that for the first time integrates a location-varying and depthwise dynamic convolutional kernel with sinusoidally activated dynamic kernel weights, reducing computational complexity while preserving near-state-of-the-art (SOTA)'s synthesis. To evaluate the effectiveness and generalizability of our method, we compare our method with competitive GAN-based vocoders in both subjective and objective tests on various datasets. Experimental results demonstrate that WOLONet can achieve comparable or slightly better synthesis quality than existing SOTA vocoders (e.g., BigVGAN) while employing fewer parameters or computational costs.      
 	      </p>
 	    </div>
 	  </div>
@@ -1126,9 +1126,7 @@
 	      </li>
 
 	      <li><a name="5"></a>
-			G. Yang, S. Yang, K. Liu, P. Fang, W. Chen, and L. Xie, “Multi-band
-			melgan: Faster waveform generation for high-quality text-to-speech,”
-			arXiv preprint arXiv:2005.05106, 2020
+		Yang G, Yang S, Liu K, et al (2021b) Multi-band melgan: Faster waveform generation for high-quality text-to-speech. In: 2021 IEEE Spoken Language Technology Workshop (SLT), IEEE, pp 492–498
 	      </li>
 
 		  <li><a name="6"></a>
@@ -1139,14 +1137,11 @@
 	      </li>
 
 		  <li><a name="7"></a>
-			W. Jang, D. Lim, J. Yoon, B. Kim, and J. Kim, “Univnet: A neural
-			vocoder with multi-resolution spectrogram discriminators for highfidelity waveform generation,” arXiv preprint arXiv:2106.07889, 2021
+			Jang W, Lim D, Yoon J, et al (2021) Univnet: A neural vocoder with multi-resolution spectrogram discriminators for high-fidelity waveform generation. In: Interspeech 2020
 	      </li>
 
 		  <li><a name="8"></a>
-			S.-g. Lee, W. Ping, B. Ginsburg, B. Catanzaro, and S. Yoon, “Bigvgan:
-			A universal neural vocoder with large-scale training,” arXiv preprint
-			arXiv:2206.04658, 2022
+		gil Lee S, Ping W, Ginsburg B, et al (2023) BigVGAN: A universal neural vocoder with large-scale training. In: The Eleventh International Conference on Learning Representation
 	      </li>
 
 		  <li><a name="9"></a>
